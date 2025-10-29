@@ -1,5 +1,6 @@
 package Model;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Juego {
     protected String nombre;
@@ -34,6 +35,41 @@ public class Juego {
     public void setListaJugadores(ArrayList<Jugador> listaJugadores) {
         this.listaJugadores = listaJugadores;
     }
+    //CRUD de las clases
+    //
+    //Equipo
 
+    public Optional <Equipo> buscarEquipo(String nombre){
+        return listaEquipos.stream().filter(equipo-> equipo.getNombre().equals(nombre)).findFirst();
+    }
+    public String ingresarEquipo(Equipo equipo) {
+        Optional<Equipo> existente = buscarEquipo(equipo.getNombre());
+        if (existente.isPresent()) {
+            return "El equipo ya existe";
+        } else {
+            listaEquipos.add(equipo);
+            return "El equipo se registro con exito";
+        }
+    }
+
+    public String actualizarEquipo(String nuevoNombre, String nombreActual ) {
+        Optional<Equipo> equipoEncontrado = buscarEquipo(nombreActual);
+        if (equipoEncontrado.isPresent()) {
+            Equipo equipo = equipoEncontrado.get();
+            equipo.setNombre(nuevoNombre);
+            return "Equipo actualizado con éxito";
+        } else {
+            return "Equipo no encontrado";
+        }
+    }
+    public String eliminarEquipo(String nombre) {
+        Optional<Equipo> equipoEncontrado = buscarEquipo(nombre);
+        if (equipoEncontrado.isPresent()) {
+            listaEquipos.remove(equipoEncontrado.get());
+            return "Equipo eliminado correctamente";
+        } else {
+            return "Equipo no encontrado";
+        }
+    }
 
 }
