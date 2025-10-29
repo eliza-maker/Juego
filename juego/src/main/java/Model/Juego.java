@@ -72,4 +72,42 @@ public class Juego {
         }
     }
 
+    //
+    // Jugador
+
+    public Optional <Jugador> buscarJugador(String nombre){
+        return listaJugadores.stream().filter(jugador-> jugador.getNombre().equals(nombre)).findFirst();
+    }
+    public String ingresarJugador(Jugador jugador) {
+        Optional<Jugador> existente = buscarJugador(jugador.getNombre());
+        if (existente.isPresent()) {
+            return "El jugador ya existe";
+        } else {
+            listaJugadores.add(jugador);
+            return "El jugador se registro con exito";
+        }
+    }
+
+    public String actualizarJugador(String nuevoNombre, String nombreActual ) {
+        Optional<Jugador> jugadorEncontrado = buscarJugador(nombreActual);
+        if (jugadorEncontrado.isPresent()) {
+            Jugador jugador = jugadorEncontrado.get();
+            jugador.setNombre(nuevoNombre);
+            return "Jugador actualizado con éxito";
+        } else {
+            return "Jugador no encontrado";
+        }
+    }
+    public String eliminarJugador(String nombre) {
+        Optional<Jugador> jugadorEncontrado = buscarJugador(nombre);
+        if (jugadorEncontrado.isPresent()) {
+            listaJugadores.remove(jugadorEncontrado.get());
+            return "Jugador eliminado correctamente";
+        } else {
+            return "Jugador no encontrado";
+        }
+    }
+
+
+
 }
